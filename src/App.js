@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Header from './components/Header';
+import ContactList from './components/ContactList';
 import { getContacts } from './api/ContactService';
 import './App.css';
 
@@ -12,19 +15,35 @@ function App() {
       const { data } = await getContacts(page, size);
       setData(data);
       console.log(data);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   }
 
+  const toggleModal = (show) => { }
   useEffect(() => {
     getAllContacts();
   }, []);
-  
+
   return (
-    <div>
-    <h1>Hello</h1>
-    </div>
+    <>
+      <Header toggleModal={toggleModal} nbOfContacts={data.totalElements} />
+      <main className='main'>
+        <div className='container'>
+          <Routes>
+            <Route path='/' element={<Navigate to={'/contacts'} />} />
+            <Route path='/contacts' element={
+              <ContactList
+                data={data}
+                currentPage={currentPage}
+                getAllContacts={getAllContacts}
+              />}
+            />
+      </Routes>
+        </div>
+      </main>
+
+    </>
   );
 }
 
