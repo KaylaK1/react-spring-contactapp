@@ -9,6 +9,15 @@ function App() {
   const modalRef = useRef();
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
+  const [file, setFile] = useState(undefined);
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    title: '',
+    status: ''
+    });
 
   const getAllContacts = async (page = 0, size = 10) => {
     try {
@@ -21,8 +30,12 @@ function App() {
     }
   }
 
+  const onChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  }
+
   const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close();
-  
+
   useEffect(() => {
     getAllContacts();
   }, []);
