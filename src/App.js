@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Header from './components/Header';
 import { getContacts } from './api/ContactService';
 import './App.css';
 
@@ -17,14 +18,15 @@ function App() {
     }
   }
 
+  const toggleModal = (show) => {}
   useEffect(() => {
     getAllContacts();
   }, []);
   
   return (
-    <div>
-    <h1>Hello</h1>
-    </div>
+    <>
+      <Header toggleModal={toggleModal} nbOfContacts={data.totalElements} />
+    </>
   );
 }
 
