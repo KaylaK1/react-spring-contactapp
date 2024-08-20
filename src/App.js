@@ -30,8 +30,9 @@ function App() {
     }
   }
 
-  const onChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+  const onChange = (event) => { // brackets destructure the property
+    setValues({ ...values, [event.target.name]: event.target.value }
+    );
   }
 
   const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close();
@@ -66,7 +67,7 @@ function App() {
         </div>
         <div className="divider"></div>
         <div className="modal__body">
-          <form onSubmit={handleNewContact}>
+          <form >
             <div className="user-details">
               <div className="input-box">
                 <span className="details">Name</span>
@@ -94,7 +95,7 @@ function App() {
               </div>
               <div className="file-input">
                 <span className="details">Profile Photo</span>
-                <input type="file" onChange={(event) => setFile(event.target.files[0])} ref={fileRef} name='photo' required />
+                <input type="file" onChange={(event) => setFile(event.target.files[0])} name='photo' required />
               </div>
             </div>
             <div className="form_footer">
