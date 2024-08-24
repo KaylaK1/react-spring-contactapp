@@ -2,11 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import ContactList from './components/ContactList';
-import { getContacts } from './api/ContactService';
+import { getContacts, saveContact } from './api/ContactService';
 import './App.css';
 
 function App() {
   const modalRef = useRef();
+  const fileRef = useRef();
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
   const [file, setFile] = useState(undefined);
@@ -34,6 +35,17 @@ function App() {
     setValues({ ...values, [event.target.name]: event.target.value }
     );
   }
+
+  const handleNewContact = async (event) => {
+    event.preventDefault();
+    try {
+      // grab the data from the response object
+      const { data } = await saveContact(values);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close();
 
@@ -67,7 +79,7 @@ function App() {
         </div>
         <div className="divider"></div>
         <div className="modal__body">
-          <form >
+          <form onSubmit={handleNewContact}>
             <div className="user-details">
               <div className="input-box">
                 <span className="details">Name</span>
@@ -95,7 +107,7 @@ function App() {
               </div>
               <div className="file-input">
                 <span className="details">Profile Photo</span>
-                <input type="file" onChange={(event) => setFile(event.target.files[0])} name='photo' required />
+                <input type="file" onChange={(event) => setFile(event.target.files[0])} ref={fileRef} name='photo' required />
               </div>
             </div>
             <div className="form_footer">
